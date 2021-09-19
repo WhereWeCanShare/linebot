@@ -42,14 +42,14 @@ def l2tg_main():
             groupid = payload['events'][0]['source']['groupId']
             userid = payload['events'][0]['source']['userId']
 
-            fwdmsg = get_user_name(groupid, userid) + " in " + get_group_name(groupid)
+            fwdmsg = get_user_name('group', groupid, userid) + " in " + get_group_name(groupid)
 
         # ROOM info
         if payload['events'][0]['source']['type'] == 'room':
             roomid = payload['events'][0]['source']['roomId']
             userid = payload['events'][0]['source']['userId']
 
-            fwdmsg = get_user_name(roomid, userid) + " in room."
+            fwdmsg = get_user_name('room', roomid, userid) + " in room."
 
         # check only text type will forward to Telegram
         if payload['events'][0]['message']['type'] == 'text':
@@ -89,11 +89,11 @@ def get_group_name(source_type):
 
     return grpname
 
-def get_user_name(source_type, userid):
+def get_user_name(source_type, source_id, userid):
     headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
     data = {}
 
-    url = f'https://api.line.me/v2/bot/room/{source_type}/member/{userid}'
+    url = f'https://api.line.me/v2/bot/{source_type}/{source_id}/member/{userid}'
     r = requests.get(url, headers=headers, data=data).json()
     logging.info(f'r = {r}')
     usrname = r["displayName"]
