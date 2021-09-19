@@ -14,7 +14,7 @@ TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 
 ## initial all variable
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
-others_type = ['image', 'image', 'sticker']
+others_type = ['image', 'video', 'sticker', 'file']
 
 logging.basicConfig(filename='line2telegram.log',
                     level=logging.DEBUG, format='')
