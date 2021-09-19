@@ -16,8 +16,8 @@ TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
 others_type = ['image', 'video', 'sticker', 'file']
 
-logging.basicConfig(filename='line2telegram.log',
-                    level=logging.DEBUG, format='')
+logging.basicConfig(filename='l2tg.log', level=logging.DEBUG, format='')
+logging.info(f'\n=== Service start {datetime.datetime.today()}')
 
 l2tg = Blueprint('l2tg', __name__)
 
@@ -62,6 +62,7 @@ def l2tg_main():
                 "chat_id": TG_CHANNEL
             }
             response = requests.get(TG_URL, headers=headers, data=data)
+            logging.info('-- Telegram respond')
             logging.info(response.text)
 
         # Other message type
@@ -75,15 +76,16 @@ def l2tg_main():
             }
 
             response = requests.get(TG_URL, headers=headers, data=data)
+            logging.info('-- Telegram respond')
             logging.info(response.text)
             
     return '', 200
 
-def get_group_name(source_type):
+def get_group_name(source_id):
     headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
     data = {}
 
-    url = f'https://api.line.me/v2/bot/group/{source_type}/summary'
+    url = f'https://api.line.me/v2/bot/group/{source_id}/summary'
     r = requests.get(url, headers=headers, data=data).json()
 
     return r["groupName"]
