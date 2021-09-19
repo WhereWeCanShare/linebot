@@ -35,6 +35,10 @@ def l2tg_main():
 
         fwdmsg = ''
 
+        #
+        logging.info(LINE_TOKEN)
+        #
+        
         headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
         data = {}
 
