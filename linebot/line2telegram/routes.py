@@ -35,6 +35,9 @@ def l2tg_main():
 
         fwdmsg = ''
 
+        headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
+        data = {}
+
         # GROUP info
         if payload['events'][0]['source']['type'] == 'group':
             groupid = payload['events'][0]['source']['groupId']
@@ -78,8 +81,8 @@ def l2tg_main():
     return '', 200
 
 def get_group_name(source_type):
-    headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
-    data = {}
+    # headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
+    # data = {}
 
     url = f'https://api.line.me/v2/bot/group/{source_type}/summary'
     r = requests.get(url, headers=headers, data=data).json()
@@ -87,8 +90,8 @@ def get_group_name(source_type):
     return r["groupName"]
 
 def get_user_name(source_type, userid):
-    headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
-    data = {}
+    # headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
+    # data = {}
 
     url = f'https://api.line.me/v2/bot/room/{source_type}/member/{userid}'
     r = requests.get(url, headers=headers, data=data).json()
