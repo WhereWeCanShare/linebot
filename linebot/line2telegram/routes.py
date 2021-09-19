@@ -37,15 +37,6 @@ def l2tg_main():
 
         fwdmsg = ''
 
-        #
-        # logging.info(f'LINE_TOKEN = {LINE_TOKEN}')
-        # logging.info(f'TG_TOKEN = {TG_TOKEN}')
-        # logging.info(f'TG_CHANNEL = {TG_CHANNEL}')
-        # #
-
-        # headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
-        # data = {}
-
         # GROUP info
         if payload['events'][0]['source']['type'] == 'group':
             groupid = payload['events'][0]['source']['groupId']
@@ -104,6 +95,7 @@ def get_user_name(source_type, userid):
 
     url = f'https://api.line.me/v2/bot/room/{source_type}/member/{userid}'
     r = requests.get(url, headers=headers, data=data).json()
+    logging.info(f'r = {r}')
     usrname = r["displayName"]
 
     return usrname
