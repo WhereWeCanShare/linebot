@@ -42,18 +42,18 @@ def l2tg_main():
             groupid = payload['events'][0]['source']['groupId']
             userid = payload['events'][0]['source']['userId']
 
-            fwdmsg = get_user_name('group', groupid, userid) + " in " + get_group_name(groupid)
+            fwdmsg = get_user_name('group', groupid, userid) + ") in (" + get_group_name(groupid)
 
         # ROOM info
         if payload['events'][0]['source']['type'] == 'room':
             roomid = payload['events'][0]['source']['roomId']
             userid = payload['events'][0]['source']['userId']
 
-            fwdmsg = get_user_name('room', roomid, userid) + " in room."
+            fwdmsg = get_user_name('room', roomid, userid) + ") in room."
 
         # check only text type will forward to Telegram
         if payload['events'][0]['message']['type'] == 'text':
-            message = "LINE: " + fwdmsg + "\n\n"
+            message = "LINE: (" + fwdmsg + ")\n\n"
             message += payload['events'][0]['message']['text']
 
             headers = {}
@@ -66,7 +66,7 @@ def l2tg_main():
 
         # Other message type
         if payload['events'][0]['message']['type'] in others_type:
-            message = "LINE:" + fwdmsg + " sent " + payload['events'][0]['message']['type']
+            message = "LINE: (" + fwdmsg + ") sent " + payload['events'][0]['message']['type']
 
             headers = {}
             data = {
@@ -85,9 +85,8 @@ def get_group_name(source_type):
 
     url = f'https://api.line.me/v2/bot/group/{source_type}/summary'
     r = requests.get(url, headers=headers, data=data).json()
-    grpname = r["groupName"]
 
-    return grpname
+    return r["groupName"]
 
 def get_user_name(source_type, source_id, userid):
     headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
@@ -95,8 +94,6 @@ def get_user_name(source_type, source_id, userid):
 
     url = f'https://api.line.me/v2/bot/{source_type}/{source_id}/member/{userid}'
     r = requests.get(url, headers=headers, data=data).json()
-    logging.info(f'r = {r}')
-    usrname = r["displayName"]
 
-    return usrname
+    return r["displayName"]
 
