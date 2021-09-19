@@ -37,6 +37,8 @@ def l2tg_main():
 
         #
         logging.info(f'LINE_TOKEN = {LINE_TOKEN}')
+        logging.info(f'TG_TOKEN = {TG_TOKEN}')
+        logging.info(f'TG_CHANNEL = {TG_CHANNEL}')
         #
 
         headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
