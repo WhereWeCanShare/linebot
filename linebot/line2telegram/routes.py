@@ -86,8 +86,9 @@ def get_group_name(source_type):
 
     url = f'https://api.line.me/v2/bot/group/{source_type}/summary'
     r = requests.get(url, headers=headers, data=data).json()
+    grpname = r["groupName"]
 
-    return r["groupName"]
+    return grpname
 
 def get_user_name(source_type, userid):
     # headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
@@ -95,6 +96,7 @@ def get_user_name(source_type, userid):
 
     url = f'https://api.line.me/v2/bot/room/{source_type}/member/{userid}'
     r = requests.get(url, headers=headers, data=data).json()
+    usrname = r["displayName"]
 
-    return r["displayName"]
+    return usrname
 
