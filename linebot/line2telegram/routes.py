@@ -4,6 +4,8 @@ import datetime
 import requests
 import logging
 
+from linebot.settings import *
+
 # get the key from system variables in .env
 LINE_TOKEN = os.getenv('LINE_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
