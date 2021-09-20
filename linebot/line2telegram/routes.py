@@ -27,16 +27,15 @@ logging.basicConfig(filename='l2tg.log', level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
 print(f'\n=== Service start {datetime.datetime.today()}')
 
-print(f'{DB_HOST}')
 try:
     conn = psycopg2.connect(
         host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
         user=DB_USER, password=DB_PASS
     )
-except psycopg2.Error as e:
-    print(f'Unable to connect to DB, {e.pgcode}:{e.pgerror}')
+except:
+    print(f'Unable to connect to DB')
 else:
-    print('Successful connect to db')
+    print(f'Successful connect to db {DB_NAME}')
     conn.close()
 
 l2tg = Blueprint('l2tg', __name__)
