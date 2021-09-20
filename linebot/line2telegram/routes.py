@@ -27,6 +27,7 @@ logging.basicConfig(filename='l2tg.log', level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
 print(f'\n=== Service start {datetime.datetime.today()}')
 
+print(f'{DB_HOST}')
 try:
     conn = psycopg2.connect(
         host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
