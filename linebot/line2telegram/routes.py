@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+import psycopg2
 import os
 import datetime
 import requests
@@ -12,6 +13,12 @@ TG_TOKEN = os.getenv('TG_TOKEN')
 TG_CHANNEL = os.getenv('TG_CHANNEL')
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 
+DB_HOST = os.getenv('DB_HOST')
+DB_PORT = os.getenv('DB_PORT')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+
 ## initial all variable
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
 others_type = ['image', 'video', 'sticker', 'file']
@@ -19,6 +26,17 @@ others_type = ['image', 'video', 'sticker', 'file']
 logging.basicConfig(filename='l2tg.log', level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
 print(f'\n=== Service start {datetime.datetime.today()}')
+
+try:
+    conn = psycopg2.connect(
+        host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
+        user=DB_USER, password=DB_PASS
+    )
+except psycopg2.Error as e:
+    print(f'Unable to connect to DB, {e.pgcode}:{e.pgerror}')
+else:
+    print('Successful connect to db')
+    conn.close()
 
 l2tg = Blueprint('l2tg', __name__)
 
