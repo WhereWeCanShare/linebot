@@ -18,6 +18,7 @@ others_type = ['image', 'video', 'sticker', 'file']
 
 logging.basicConfig(filename='l2tg.log', level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
+print(f'\n=== Service start {datetime.datetime.today()}')
 
 l2tg = Blueprint('l2tg', __name__)
 
@@ -30,6 +31,8 @@ def l2tg_main():
         # logging to file.
         logging.info(f'\n--- Webhook {datetime.datetime.today()}')
         logging.info(payload)
+        print(f'\n--- Webhook {datetime.datetime.today()}')
+        print(payload)
 
         # discard some LINE events.
         if payload['events'][0]['type'] in discard_events:
@@ -64,6 +67,8 @@ def l2tg_main():
             response = requests.get(TG_URL, headers=headers, data=data)
             logging.info('-- Telegram respond')
             logging.info(response.text)
+            print('-- Telegram respond')
+            print(response.text)
 
         # Other message type
         if payload['events'][0]['message']['type'] in others_type:
@@ -78,6 +83,8 @@ def l2tg_main():
             response = requests.get(TG_URL, headers=headers, data=data)
             logging.info('-- Telegram respond')
             logging.info(response.text)
+            print('-- Telegram respond')
+            print(response.text)
             
     return '', 200
 
