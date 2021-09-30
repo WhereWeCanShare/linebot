@@ -1,32 +1,49 @@
 from flask import Blueprint, request
+import psycopg2
 import os
 import datetime
 import requests
 import logging
 
 from linebot.settings import *
+from ..library import chkpid
 
-# get the key from system variables in .env
-LINE_TOKEN = os.getenv('LINE_TOKEN')
-TG_TOKEN = os.getenv('TG_TOKEN')
-TG_CHANNEL = os.getenv('TG_CHANNEL')
-TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
-
-LOGFILE = os.getenv('LOGFILE')
+# get the key from system variables
+LINE_TOKEN_CHKPID = os.getenv('LINE_TOKEN_CHKPID')
+DB_HOST = os.getenv('DB_HOST')
+DB_PORT = os.getenv('DB_PORT')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
 
 ## initial all variable
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
 others_type = ['image', 'video', 'sticker', 'file']
 
-logging.basicConfig(filename=LOGFILE, level=logging.DEBUG, format='')
-logging.info(f'\n=== Service start {datetime.datetime.today()}')
-print(f'\n=== Service start {datetime.datetime.today()}')
+logging.basicConfig(filename='chkthaiid.log', level=logging.DEBUG, format='')
+msginfo = f'\n=== Service start {datetime.datetime.today()}'
+logging.info(msginfo)
+print(msginfo)
 
+try:
+    conn = psycopg2.connect(
+        host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
+        user=DB_USER, password=DB_PASS
+    )
+except:
+    msginfo = f'Unable to connect to DB: {DB_NAME}'
+    logging.info(msginfo)
+    print(msginfo)
+else:
+    msginfo = f'Successful connect to db {DB_NAME}'
+    logging.info(msginfo)
+    print(msginfo)
+    conn.close()
 
-l2tg = Blueprint('l2tg', __name__)
+chkthaiid = Blueprint('chkthaiid', __name__)
 
-@l2tg.route('/', methods=['POST', 'GET'])
-def l2tg_main():
+@chkthaiid.route('/', methods=['POST', 'GET'])
+def chkthaiid_main():
     
     if request.method == 'POST':
         payload = request.json
@@ -34,8 +51,8 @@ def l2tg_main():
         # logging to file.
         msginfo = f'\n--- Webhook {datetime.datetime.today()}'
         logging.info(msginfo)
-        logging.info(payload)
         print(msginfo)
+        logging.info(payload)
         print(payload)
 
         # discard some LINE events.
@@ -69,10 +86,9 @@ def l2tg_main():
                 "chat_id": TG_CHANNEL
             }
             response = requests.get(TG_URL, headers=headers, data=data)
-            msginfo = '-- Telegram respond'
-            logging.info(msginfo)
+            logging.info('-- Telegram respond')
             logging.info(response.text)
-            print(msginfo)
+            print('-- Telegram respond')
             print(response.text)
 
         # Other message type
@@ -86,10 +102,9 @@ def l2tg_main():
             }
 
             response = requests.get(TG_URL, headers=headers, data=data)
-            msginfo = '-- Telegram respond'
-            logging.info(msginfo)
+            logging.info('-- Telegram respond')
             logging.info(response.text)
-            print(msginfo)
+            print('-- Telegram respond')
             print(response.text)
             
     return '', 200
