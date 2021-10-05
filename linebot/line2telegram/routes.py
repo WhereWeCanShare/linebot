@@ -96,13 +96,13 @@ def l2tg_main():
 
             headers = {}
             with open(flenm, 'rb') as f:
-                photo = f.read()
+                photo = { "photo": f }
                 data = {
-                    "photo": f,
+                    # "photo": f,
                     "chat_id": TG_CHANNEL,
                     "caption": fwdmsg
                 }
-                response = requests.get(TG_URL_PHOTO, headers=headers, data=data)
+                response = requests.get(TG_URL_PHOTO, headers=headers, data=data, files=photo)
             
             msginfo = '-- Telegram respond'
             logging.info(msginfo)
