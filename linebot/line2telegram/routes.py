@@ -109,6 +109,7 @@ def l2tg_main():
             logging.info(response.text)
             print(msginfo)
             print(response.text)
+            os.remove(flenm)
 
         # Other message type
         if payload['events'][0]['message']['type'] in others_type:
