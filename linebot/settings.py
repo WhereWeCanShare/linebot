@@ -14,3 +14,5 @@ load_dotenv()
 LINE_TOKEN = os.getenv("LINE_TOKEN")
 TG_TOKEN = os.getenv("TG_TOKEN")
 TG_CHANNEL = os.getenv("TG_CHANNEL")
+
+LOGFILE = os.getenv("LOGFILE")

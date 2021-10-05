@@ -4,7 +4,7 @@ import datetime
 import requests
 import logging
 
-# from linebot.settings import *
+from linebot.settings import *
 
 # get the key from system variables in .env
 LOGFILE = os.getenv('LOGFILE')
