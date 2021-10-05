@@ -11,7 +11,7 @@ LINE_TOKEN = os.getenv('LINE_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
 TG_CHANNEL = os.getenv('TG_CHANNEL')
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
-TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto]'
+TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
 
 LOGFILE = os.getenv('LOGFILE')
 
