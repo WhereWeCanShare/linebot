@@ -16,7 +16,7 @@ LOGFILE = os.getenv('LOGFILE')
 
 ## initial all variable
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
-others_type = ['image', 'video', 'sticker', 'file']
+others_type = ['video', 'sticker', 'file']
 
 logging.basicConfig(filename=LOGFILE, level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
@@ -67,6 +67,37 @@ def l2tg_main():
             data = {
                 "text": message,
                 "chat_id": TG_CHANNEL
+            }
+            response = requests.get(TG_URL, headers=headers, data=data)
+            msginfo = '-- Telegram respond'
+            logging.info(msginfo)
+            logging.info(response.text)
+            print(msginfo)
+            print(response.text)
+
+            # image
+        
+        if payload['events'][0]['message']['type'] == 'image':
+            message = "LINE: (" + fwdmsg + ") sent " + payload['events'][0]['message']['type']
+
+            msgid = payload['events'][0]['message']['id']
+            flenm = '{}.jpg'.format(payload['events'][0]['timestamp'])
+
+            url = f'https://api-data.line.me/v2/bot/message/{msgid}/content'
+
+            Authorization = 'Bearer {}'.format(LINE_TOKEN)
+            headers = {
+                'Authorization': Authorization
+            }
+            with open(flenm, 'bw') as f:
+                img = requests.get(url, headers=headers)
+                f.write(img.content)
+
+            headers = {}
+            data = {
+                "photo": open(flenm, 'rb'),
+                "chat_id": TG_CHANNEL,
+                "caption": fwdmsg
             }
             response = requests.get(TG_URL, headers=headers, data=data)
             msginfo = '-- Telegram respond'
