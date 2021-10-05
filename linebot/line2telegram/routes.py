@@ -98,7 +98,7 @@ def l2tg_main():
             with open(flenm, 'rb') as f:
                 photo = f.read()
                 data = {
-                    "photo": photo,
+                    "photo": f,
                     "chat_id": TG_CHANNEL,
                     "caption": fwdmsg
                 }
