@@ -6,11 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon-rooster-l.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+
     <title></title>
 </head>
 
-<body style="background: black, color: whitesmoke;">
-    {% block content %}{% endblock %}
+<body class="bg-dark">
+    <div class="container-fluid text-primary">
+
+        {% block content %}{% endblock %}
+
+
+        <footer class="text-center">
+            <iframe src="https://www.worldcommunitygrid.org/getDynamicImage.do?memberName=wannadrunk&mnOn=false&stat=3&imageNum=2&rankOn=false&projectsOn=false&special=true&link=1&memberId=1148597" frameborder="0" name="di" scrolling="no" width="405px" height="145px"></iframe>
+        </footer>
+    
+    </div>
+
+    <!-- Bootstrap 5.1.2 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
 
 </body>
 
