@@ -1,5 +1,6 @@
 .flaskenv
 doc/
+*.log
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,venv,dotenv,git,flask
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,venv,dotenv,git,flask

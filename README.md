@@ -1,8 +1,11 @@
 # LINE Bot
 
+This LINE bot just do message forwarding from LINE room/group to Telegram.
+
 ## webhook
 
 - `/l2tg` - line2telegram: forward text message from LINE group/room to Telegram chat
+
 ### change log
 
 - r0.02 add the feature to forward posted image.

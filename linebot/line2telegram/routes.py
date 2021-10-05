@@ -4,16 +4,16 @@ import datetime
 import requests
 import logging
 
-from linebot.settings import *
+# from linebot.settings import *
 
 # get the key from system variables in .env
+LOGFILE = os.getenv('LOGFILE')
 LINE_TOKEN = os.getenv('LINE_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
 TG_CHANNEL = os.getenv('TG_CHANNEL')
+
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
-
-LOGFILE = os.getenv('LOGFILE')
 
 ## initial all variable
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
@@ -22,7 +22,6 @@ others_type = ['video', 'sticker', 'file']
 logging.basicConfig(filename=LOGFILE, level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
 print(f'\n=== Service start {datetime.datetime.today()}')
-
 
 l2tg = Blueprint('l2tg', __name__)
 
@@ -36,8 +35,8 @@ def l2tg_main():
         msginfo = f'\n--- Webhook {datetime.datetime.today()}'
         logging.info(msginfo)
         logging.info(payload)
-        print(msginfo)
-        print(payload)
+        # print(msginfo)
+        # print(payload)
 
         # discard some LINE events.
         if payload['events'][0]['type'] in discard_events:
@@ -73,10 +72,10 @@ def l2tg_main():
             msginfo = '-- Telegram respond'
             logging.info(msginfo)
             logging.info(response.text)
-            print(msginfo)
-            print(response.text)
+            # print(msginfo)
+            # print(response.text)
 
-        # image
+        # IMAGE
         if payload['events'][0]['message']['type'] == 'image':
             message = "LINE: (" + fwdmsg + ") sent " + payload['events'][0]['message']['type']
 
@@ -84,6 +83,9 @@ def l2tg_main():
             flenm = '{}.jpg'.format(payload['events'][0]['timestamp'])
 
             url = f'https://api-data.line.me/v2/bot/message/{msgid}/content'
+
+            msginfo = f'Download {url} to {flenm}.'
+            logging.info(msginfo)
 
             Authorization = 'Bearer {}'.format(LINE_TOKEN)
             headers = {
@@ -98,7 +100,6 @@ def l2tg_main():
             with open(flenm, 'rb') as f:
                 photo = { "photo": f }
                 data = {
-                    # "photo": f,
                     "chat_id": TG_CHANNEL,
                     "caption": fwdmsg
                 }
@@ -107,8 +108,8 @@ def l2tg_main():
             msginfo = '-- Telegram respond'
             logging.info(msginfo)
             logging.info(response.text)
-            print(msginfo)
-            print(response.text)
+            # print(msginfo)
+            # print(response.text)
             os.remove(flenm)
 
         # Other message type
@@ -147,4 +148,3 @@ def get_user_name(source_type, source_id, userid):
     r = requests.get(url, headers=headers, data=data).json()
 
     return r["displayName"]
-
