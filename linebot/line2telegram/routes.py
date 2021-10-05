@@ -89,6 +89,7 @@ def l2tg_main():
             headers = {
                 'Authorization': Authorization
             }
+
             with open(flenm, 'bw') as f:
                 img = requests.get(url, headers=headers)
                 f.write(img.content)
@@ -100,7 +101,8 @@ def l2tg_main():
                     "chat_id": TG_CHANNEL,
                     "caption": fwdmsg
                 }
-            response = requests.get(TG_URL, headers=headers, data=data)
+                response = requests.get(TG_URL, headers=headers, data=data)
+            
             msginfo = '-- Telegram respond'
             logging.info(msginfo)
             logging.info(response.text)
