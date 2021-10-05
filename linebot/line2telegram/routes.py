@@ -75,8 +75,7 @@ def l2tg_main():
             print(msginfo)
             print(response.text)
 
-            # image
-        
+        # image
         if payload['events'][0]['message']['type'] == 'image':
             message = "LINE: (" + fwdmsg + ") sent " + payload['events'][0]['message']['type']
 
@@ -96,8 +95,9 @@ def l2tg_main():
 
             headers = {}
             with open(flenm, 'rb') as f:
+                photo = f.read()
                 data = {
-                    "photo": f,
+                    "photo": photo,
                     "chat_id": TG_CHANNEL,
                     "caption": fwdmsg
                 }
