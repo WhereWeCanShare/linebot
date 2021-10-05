@@ -96,7 +96,7 @@ def l2tg_main():
             headers = {}
             with open(flenm, 'rb') as f:
                 data = {
-                    "photo": f.read(),
+                    "photo": f,
                     "chat_id": TG_CHANNEL,
                     "caption": fwdmsg
                 }
