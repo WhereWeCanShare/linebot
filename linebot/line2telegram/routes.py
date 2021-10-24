@@ -77,40 +77,40 @@ def l2tg_main():
 
         # IMAGE
         if payload['events'][0]['message']['type'] == 'image':
-            message = "LINE: (" + fwdmsg + ") sent " + payload['events'][0]['message']['type']
+            for i in range(len(payload['events'])):
+                message = "LINE: (" + fwdmsg + ") sent " + payload['events'][i]['message']['type']
 
-            msgid = payload['events'][0]['message']['id']
-            flenm = '{}.jpg'.format(payload['events'][0]['timestamp'])
+                msgid = payload['events'][i]['message']['id']
+                flenm = f'{msgid}.jpg'
 
-            url = f'https://api-data.line.me/v2/bot/message/{msgid}/content'
+                url = f'https://api-data.line.me/v2/bot/message/{msgid}/content'
 
-            msginfo = f'Download {url} to {flenm}.'
-            logging.info(msginfo)
+                msginfo = f'Download {url} to {flenm}.'
+                logging.info(msginfo)
 
-            Authorization = 'Bearer {}'.format(LINE_TOKEN)
-            headers = {
-                'Authorization': Authorization
-            }
-
-            with open(flenm, 'bw') as f:
-                img = requests.get(url, headers=headers)
-                f.write(img.content)
-
-            headers = {}
-            with open(flenm, 'rb') as f:
-                photo = { "photo": f }
-                data = {
-                    "chat_id": TG_CHANNEL,
-                    "caption": fwdmsg
+                Authorization = 'Bearer {}'.format(LINE_TOKEN)
+                headers = {
+                    'Authorization': Authorization
                 }
-                response = requests.get(TG_URL_PHOTO, headers=headers, data=data, files=photo)
-            
-            msginfo = '-- Telegram respond'
-            logging.info(msginfo)
-            logging.info(response.text)
-            # print(msginfo)
-            # print(response.text)
-            os.remove(flenm)
+
+                with open(flenm, 'bw') as f:
+                    img = requests.get(url, headers=headers)
+                    f.write(img.content)
+
+                headers = {}
+                with open(flenm, 'rb') as f:
+                    photo = { "photo": f }
+                    data = {
+                        "chat_id": TG_CHANNEL,
+                        "caption": fwdmsg
+                    }
+                    response = requests.get(TG_URL_PHOTO, headers=headers, data=data, files=photo)
+                
+                msginfo = '-- Telegram respond'
+                logging.info(msginfo)
+                logging.info(response.text)
+       
+                os.remove(flenm)
 
         # Other message type
         if payload['events'][0]['message']['type'] in others_type:
