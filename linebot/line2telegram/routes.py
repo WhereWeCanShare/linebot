@@ -4,15 +4,16 @@ import requests
 import logging
 
 from flask import Blueprint, request
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
 # get the key from system variables in .env
 LINE_TOKEN = os.environ.get('LINE_TOKEN')
 TG_TOKEN = os.environ.get('TG_TOKEN')
 TG_CHANNEL = os.environ.get('TG_CHANNEL')
 SKIP_USER_ID = os.environ.get('SKIP_USER_ID')
+LOGFILE = os.environ.get('LOGFILE')
 
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
@@ -20,7 +21,6 @@ TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
 ## initial all variable
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
 others_type = ['video', 'sticker', 'file']
-
 
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
 print(f'\n=== Service start {datetime.datetime.today()}')
