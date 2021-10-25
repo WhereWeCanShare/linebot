@@ -1,10 +1,9 @@
-from flask import Blueprint, request
 import os
 import datetime
 import requests
 import logging
 
-from linebot.settings import *
+from flask import Blueprint, request
 
 # get the key from system variables in .env
 LINE_TOKEN = os.environ.get('LINE_TOKEN')
