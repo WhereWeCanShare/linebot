@@ -4,17 +4,12 @@ import requests
 import logging
 
 from flask import Blueprint, request
-# from dotenv import load_dotenv
-
-# load_dotenv()
 
 # get the key from system variables in .env
 LINE_TOKEN = os.environ.get('LINE_TOKEN')
 TG_TOKEN = os.environ.get('TG_TOKEN')
 TG_CHANNEL = os.environ.get('TG_CHANNEL')
 SKIP_USER_ID = os.environ.get('SKIP_USER_ID')
-
-print(f'{LINE_TOKEN} - {TG_TOKEN} - {SKIP_USER_ID}')
 
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
@@ -24,9 +19,9 @@ discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfo
 others_type = ['video', 'sticker', 'file']
 
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
-print(f'\n=== Service start {datetime.datetime.today()}')
 
 l2tg = Blueprint('l2tg', __name__)
+
 
 @l2tg.route('/', methods=['POST', 'GET'])
 def l2tg_main():
@@ -38,17 +33,14 @@ def l2tg_main():
         msginfo = f'\n--- Webhook {datetime.datetime.today()}'
         logging.info(msginfo)
         logging.info(payload)
-        # print(msginfo)
-        # print(payload)
 
         # discard some LINE events.
         if payload['events'][0]['type'] in discard_events:
             return '.l.', 200
         
         if payload['events'][0]['source']['userId'] == SKIP_USER_ID:
-            logging.info(f"0 - {payload['events'][0]['source']['userId']} vs {SKIP_USER_ID}")
+            logging.info(f"...Ignore yourself...")
             return '', 200
-        logging.info(f"1 - {payload['events'][0]['source']['userId']} vs {SKIP_USER_ID}")
 
         fwdmsg = ''
 
@@ -80,8 +72,6 @@ def l2tg_main():
             msginfo = '-- Telegram respond'
             logging.info(msginfo)
             logging.info(response.text)
-            # print(msginfo)
-            # print(response.text)
 
         # IMAGE
         if payload['events'][0]['message']['type'] == 'image':
@@ -139,6 +129,7 @@ def l2tg_main():
             
     return '', 200
 
+
 def get_group_name(source_id):
     headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
     data = {}
@@ -147,6 +138,7 @@ def get_group_name(source_id):
     r = requests.get(url, headers=headers, data=data).json()
 
     return r["groupName"]
+
 
 def get_user_name(source_type, source_id, userid):
     headers = { 'Authorization': 'Bearer ' + LINE_TOKEN }
