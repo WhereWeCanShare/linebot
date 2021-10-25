@@ -25,6 +25,7 @@ require to define system variables ie. Token, API key,
 LINE_TOKEN=
 TG_TOKEN=
 TG_CHANNEL=
+SKIP_USER_ID=
 ```
 
 ## host at Heroku
