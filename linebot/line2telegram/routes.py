@@ -11,6 +11,7 @@ LOGFILE = os.getenv('LOGFILE') or "../logs/bot.log"
 LINE_TOKEN = os.getenv('LINE_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
 TG_CHANNEL = os.getenv('TG_CHANNEL')
+SKIP_USER_ID = os.getenv("SKIP_USER_ID")
 
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
@@ -41,6 +42,9 @@ def l2tg_main():
         # discard some LINE events.
         if payload['events'][0]['type'] in discard_events:
             return '.l.', 200
+        
+        if payload['events'][0]['source']['userId'] == SKIP_USER_ID:
+            return '', 200
 
         fwdmsg = ''
 
