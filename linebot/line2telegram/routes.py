@@ -7,10 +7,10 @@ import logging
 from linebot.settings import *
 
 # get the key from system variables in .env
-LINE_TOKEN = os.getenv('LINE_TOKEN')
-TG_TOKEN = os.getenv('TG_TOKEN')
-TG_CHANNEL = os.getenv('TG_CHANNEL')
-SKIP_USER_ID = os.getenv("SKIP_USER_ID")
+LINE_TOKEN = os.environ.get('LINE_TOKEN')
+TG_TOKEN = os.environ.get('TG_TOKEN')
+TG_CHANNEL = os.environ.get('TG_CHANNEL')
+SKIP_USER_ID = os.environ.get('SKIP_USER_ID')
 
 TG_URL = f'https://api.telegram.org/bot{TG_TOKEN}/sendmessage'
 TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
