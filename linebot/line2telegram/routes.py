@@ -7,7 +7,6 @@ import logging
 from linebot.settings import *
 
 # get the key from system variables in .env
-LOGFILE = os.getenv('LOGFILE') or "../logs/bot.log"
 LINE_TOKEN = os.getenv('LINE_TOKEN')
 TG_TOKEN = os.getenv('TG_TOKEN')
 TG_CHANNEL = os.getenv('TG_CHANNEL')
@@ -20,7 +19,6 @@ TG_URL_PHOTO = f'https://api.telegram.org/bot{TG_TOKEN}/sendphoto'
 discard_events = ['join', 'leave', 'memberJoined', 'memberLeft', 'follow', 'unfollow', 'leave', 'postback', 'beacon', 'accountLink', 'things', ]
 others_type = ['video', 'sticker', 'file']
 
-logging.basicConfig(filename=LOGFILE, level=logging.DEBUG, format='')
 logging.info(f'\n=== Service start {datetime.datetime.today()}')
 print(f'\n=== Service start {datetime.datetime.today()}')
 
@@ -44,7 +42,9 @@ def l2tg_main():
             return '.l.', 200
         
         if payload['events'][0]['source']['userId'] == SKIP_USER_ID:
+            logging.info(f"0 - {payload['events'][0]['source']['userId']} vs {SKIP_USER_ID}")
             return '', 200
+        logging.info(f"1 - {payload['events'][0]['source']['userId']} vs {SKIP_USER_ID}")
 
         fwdmsg = ''
 
